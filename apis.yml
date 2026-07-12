@@ -1,0 +1,156 @@
+aid: sonix
+url: https://raw.githubusercontent.com/api-evangelist/sonix/refs/heads/main/apis.yml
+name: Sonix
+kind: company
+description: Sonix is an AI-powered platform for automated audio and video transcription,
+  subtitles, and translation. It transcribes in 54+ languages with speaker labels
+  and word-level timestamps, translates transcripts into 55+ languages, generates
+  subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), and runs AI analysis
+  (summaries, chapters, sentiment, entities). The Sonix REST API - available to
+  subscribers - lets developers upload media, poll transcription status, retrieve
+  and edit transcripts, export subtitles, and translate, all authorized with a
+  Bearer API key against https://api.sonix.ai/v1.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Subtitles
+- Captions
+- Translation
+- AI
+- Media
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: sonix:sonix-media-transcription-api
+  name: Sonix Media & Transcription API
+  tags:
+  - Audio Transcription
+  - Speech-to-Text
+  - Media Upload
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sonix.ai/docs/api
+  baseURL: https://api.sonix.ai/v1
+  properties:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+  - url: https://sonix.ai/api
+    type: APIReference
+  - url: openapi/sonix-openapi.yml
+    type: OpenAPI
+  - url: collections/sonix.postman_collection.json
+    type: PostmanCollection
+  - url: collections/sonix.opencollection.json
+    type: OpenCollection
+  description: Upload audio and video media - by multipart file (up to 100MB) or
+    file_url - for automated speech-to-text transcription in 54+ languages, then
+    list, retrieve, update, and delete media and poll transcription status
+    (preparing, transcribing, aligning, completed). An optional callback_url
+    delivers a webhook when transcription finishes.
+- aid: sonix:sonix-transcripts-api
+  name: Sonix Transcripts API
+  tags:
+  - Transcription
+  - Transcripts
+  - Word Timestamps
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sonix.ai/docs/api
+  baseURL: https://api.sonix.ai/v1
+  properties:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+  - url: openapi/sonix-openapi.yml
+    type: OpenAPI
+  - url: collections/sonix.postman_collection.json
+    type: PostmanCollection
+  - url: collections/sonix.opencollection.json
+    type: OpenCollection
+  description: Retrieve a media file's transcript as plain text or as JSON with
+    word-level timings, speaker labels, and confidence scores, and edit transcript
+    content programmatically after transcription completes.
+- aid: sonix:sonix-translations-api
+  name: Sonix Translations API
+  tags:
+  - Translation
+  - Transcription
+  - Localization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sonix.ai/docs/api
+  baseURL: https://api.sonix.ai/v1
+  properties:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+  - url: openapi/sonix-openapi.yml
+    type: OpenAPI
+  - url: collections/sonix.postman_collection.json
+    type: PostmanCollection
+  - url: collections/sonix.opencollection.json
+    type: OpenCollection
+  description: Translate a completed transcript into any of 55+ target languages
+    and poll the translation status per target language, enabling multilingual
+    transcripts and subtitles from a single source media file.
+- aid: sonix:sonix-exports-subtitles-api
+  name: Sonix Exports & Subtitles API
+  tags:
+  - Subtitles
+  - Captions
+  - Exports
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sonix.ai/docs/api
+  baseURL: https://api.sonix.ai/v1
+  properties:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+  - url: openapi/sonix-openapi.yml
+    type: OpenAPI
+  - url: collections/sonix.postman_collection.json
+    type: PostmanCollection
+  - url: collections/sonix.opencollection.json
+    type: OpenCollection
+  description: Export transcripts as SRT and VTT subtitles, JSON, and other formats,
+    split transcripts into subtitle segments by characters-per-line and lines-per-
+    subtitle, burn subtitles into video, and export source media as mp3, wav, or
+    mp4.
+- aid: sonix:sonix-ai-analysis-api
+  name: Sonix AI Analysis API
+  tags:
+  - AI
+  - Summarization
+  - Sentiment
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sonix.ai/docs/api
+  baseURL: https://api.sonix.ai/v1
+  properties:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+  - url: openapi/sonix-openapi.yml
+    type: OpenAPI
+  - url: collections/sonix.postman_collection.json
+    type: PostmanCollection
+  - url: collections/sonix.opencollection.json
+    type: OpenCollection
+  description: Run AI analysis over a transcript to generate summaries, chapters,
+    sentiment analysis, and entity extraction, and retrieve or batch these
+    summarization jobs across a folder of media.
+common:
+- type: Authentication
+  url: authentication/sonix-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/sonix-ai
+- type: Website
+  url: https://sonix.ai
+- type: Documentation
+  url: https://sonix.ai/docs/api
+- type: Plans
+  url: plans/sonix-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sonix-rate-limits.yml
+- type: FinOps
+  url: finops/sonix-finops.yml
+- url: https://sonix.ai/resources
+  type: Blog
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

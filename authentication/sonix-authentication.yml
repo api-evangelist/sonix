@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/sonix-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: >-
+    Sonix API key passed as `Authorization: Bearer <API Key>`. Subscribers
+    retrieve their key at https://my.sonix.ai/api; trial accounts request one
+    from Sonix support. The current API version is v1 at https://api.sonix.ai/v1.
+  sources:
+  - openapi/sonix-openapi.yml
+  - https://sonix.ai/docs/api

@@ -1,0 +1,189 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Media", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List media files.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.sonix.ai/v1/media" },
+          "docs": "Lists media files, paginated at 100 per page (total_pages in response)."
+        },
+        {
+          "info": { "name": "Upload media for transcription.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media",
+            "body": { "type": "json", "data": "{ \"file_url\": \"\", \"name\": \"\", \"language\": \"en\", \"callback_url\": \"\" }" }
+          },
+          "docs": "Uploads a media file (multipart up to 100MB) or a file_url for transcription in 54+ languages."
+        },
+        {
+          "info": { "name": "Retrieve media status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Retrieves a media file and its transcription status (preparing, transcribing, aligning, completed, blocked, failed, duplicate)."
+        },
+        {
+          "info": { "name": "Update media.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"name\": \"\", \"label\": \"\", \"folder_id\": \"\" }" }
+          },
+          "docs": "Updates a media file's name, label, or folder."
+        },
+        {
+          "info": { "name": "Delete media.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Permanently deletes a media file and its transcript."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Transcripts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve transcript (text).", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Retrieves the transcript as plain text."
+        },
+        {
+          "info": { "name": "Retrieve transcript (JSON).", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.json",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Retrieves the transcript as JSON with word-level timings, speaker labels, and confidence scores."
+        },
+        {
+          "info": { "name": "Update transcript.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"transcript\": \"\" }" }
+          },
+          "docs": "Edits or replaces the transcript content."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Translations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create translation.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/translations",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"language\": \"es\" }" }
+          },
+          "docs": "Translates a completed transcript into a target language (55+ supported)."
+        },
+        {
+          "info": { "name": "Check translation status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/translations/:language",
+            "params": [
+              { "name": "id", "value": "", "type": "path", "description": "The media ID." },
+              { "name": "language", "value": "es", "type": "path", "description": "Target language code." }
+            ]
+          },
+          "docs": "Retrieves the status of a translation for a target language."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Exports", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Export transcript as SRT.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.srt",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Returns the transcript as an SRT subtitle file."
+        },
+        {
+          "info": { "name": "Export transcript as VTT.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.vtt",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ]
+          },
+          "docs": "Returns the transcript as a WebVTT caption file."
+        },
+        {
+          "info": { "name": "Split transcript into subtitles.", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript/split",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"max_characters_per_line\": 42, \"max_lines_per_subtitle\": 2 }" }
+          },
+          "docs": "Splits the transcript into subtitle segments."
+        },
+        {
+          "info": { "name": "Export media (mp3/wav/mp4).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/media_exports",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"format\": \"mp3\" }" }
+          },
+          "docs": "Creates an exported media file (mp3, wav, or mp4)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "AI Analysis", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create AI analysis.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/summarizations",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The media ID." } ],
+            "body": { "type": "json", "data": "{ \"type\": \"summary\" }" }
+          },
+          "docs": "Runs AI analysis (summary, chapters, sentiment, or entities) over a transcript."
+        },
+        {
+          "info": { "name": "Retrieve AI analysis result.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/summarizations/:id",
+            "params": [ { "name": "id", "value": "", "type": "path", "description": "The summarization job ID." } ]
+          },
+          "docs": "Retrieves the result of an AI analysis job."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Sonix
+providerId: sonix
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Rate Limiting
+- Quotas
+description: >-
+  Sonix does not publish fixed numeric request-rate limits for its REST API.
+  Practical throughput is governed by two things: your plan's transcription /
+  translation and AI-workspace hour allowances (per-hour on pay-as-you-go, or
+  the bundled monthly hours on Core/Advanced/Pro), and per-request constraints
+  such as the 100MB multipart upload size (larger files must be supplied via a
+  file_url). Media listing is paginated at 100 items per page. Transcription is
+  asynchronous, so clients should poll media/transcript status or use a
+  completion webhook rather than issuing tight request loops.
+notes: >-
+  Numeric per-account or per-endpoint request limits are not documented as of
+  the review date. The dominant "limit" is your plan's hour allowance and
+  storage quota. Verify any published limits in the Sonix API docs during
+  reconciliation.
+sources:
+- https://sonix.ai/docs/api
+- https://sonix.ai/api
+- https://sonix.ai/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: API Request Rate
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric per-minute request-rate limit is documented for the REST API.
+- name: Transcription / Translation Hours
+  scope: account
+  metric: hours
+  limit: per plan
+  notes: Per-hour on pay-as-you-go ($10/hr); bundled monthly hour allowances on Core/Advanced/Pro.
+- name: AI Workspace Hours
+  scope: account
+  metric: hours
+  limit: per plan
+  notes: AI analysis (summaries, chapters, sentiment, entities) draws down a separate monthly AI-workspace hour allowance.
+- name: Multipart Upload Size
+  scope: request
+  metric: bytes
+  limit: 104857600
+  notes: Multipart file uploads are limited to 100MB; larger or remote files must be passed via file_url.
+- name: Media List Pagination
+  scope: request
+  metric: items
+  limit: 100
+  notes: The media list endpoint returns up to 100 items per page and includes total_pages.
+- name: Storage
+  scope: account
+  metric: bytes
+  limit: per plan
+  notes: Storage quota ranges from 5 GB (pay-as-you-go) to 100 GB (Pro) by plan.
+policies:
+- name: Asynchronous Processing
+  description: Transcription, translation, exports, and AI analysis are asynchronous jobs; retrieve results by polling status or via a completion webhook (callback_url).
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses rather than polling aggressively.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

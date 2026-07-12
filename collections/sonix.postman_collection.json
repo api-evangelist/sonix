@@ -1,0 +1,184 @@
+{
+  "info": {
+    "name": "Sonix API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Automated audio and video transcription, subtitles, translation, and AI analysis. Base URL https://api.sonix.ai/v1, Bearer API key auth. Modeled by API Evangelist from https://sonix.ai/docs/api."
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [ { "key": "token", "value": "{{apiKey}}", "type": "string" } ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.sonix.ai/v1" },
+    { "key": "apiKey", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Media",
+      "item": [
+        {
+          "name": "List media files",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media", "host": [ "{{baseUrl}}" ], "path": [ "media" ] },
+            "description": "Lists media files, paginated at 100 per page."
+          }
+        },
+        {
+          "name": "Upload media for transcription",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"file_url\": \"\", \"name\": \"\", \"language\": \"en\", \"callback_url\": \"\" }" },
+            "url": { "raw": "{{baseUrl}}/media", "host": [ "{{baseUrl}}" ], "path": [ "media" ] },
+            "description": "Uploads a media file (multipart up to 100MB) or file_url for transcription."
+          }
+        },
+        {
+          "name": "Retrieve media status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves a media file and its transcription status."
+          }
+        },
+        {
+          "name": "Update media",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"name\": \"\", \"label\": \"\", \"folder_id\": \"\" }" },
+            "url": { "raw": "{{baseUrl}}/media/:id", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Updates a media file's name, label, or folder."
+          }
+        },
+        {
+          "name": "Delete media",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "{{baseUrl}}/media/:id", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Permanently deletes a media file and its transcript."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transcripts",
+      "item": [
+        {
+          "name": "Retrieve transcript (text)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves the transcript as plain text."
+          }
+        },
+        {
+          "name": "Retrieve transcript (JSON)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript.json", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript.json" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves the transcript as JSON with word-level timings, speaker labels, and confidence."
+          }
+        },
+        {
+          "name": "Update transcript",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"transcript\": \"\" }" },
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Edits or replaces the transcript content."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Translations",
+      "item": [
+        {
+          "name": "Create translation",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"language\": \"es\" }" },
+            "url": { "raw": "{{baseUrl}}/media/:id/translations", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "translations" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Translates a completed transcript into a target language (55+ supported)."
+          }
+        },
+        {
+          "name": "Check translation status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id/translations/:language", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "translations", ":language" ], "variable": [ { "key": "id", "value": "" }, { "key": "language", "value": "es" } ] },
+            "description": "Retrieves the status of a translation for a target language."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Exports",
+      "item": [
+        {
+          "name": "Export transcript as SRT",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript.srt", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript.srt" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Returns the transcript as an SRT subtitle file."
+          }
+        },
+        {
+          "name": "Export transcript as VTT",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript.vtt", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript.vtt" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Returns the transcript as a WebVTT caption file."
+          }
+        },
+        {
+          "name": "Split transcript into subtitles",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"max_characters_per_line\": 42, \"max_lines_per_subtitle\": 2 }" },
+            "url": { "raw": "{{baseUrl}}/media/:id/transcript/split", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "transcript", "split" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Splits the transcript into subtitle segments."
+          }
+        },
+        {
+          "name": "Export media (mp3/wav/mp4)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"format\": \"mp3\" }" },
+            "url": { "raw": "{{baseUrl}}/media/:id/media_exports", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "media_exports" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Creates an exported media file (mp3, wav, or mp4)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Analysis",
+      "item": [
+        {
+          "name": "Create AI analysis",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{ \"type\": \"summary\" }" },
+            "url": { "raw": "{{baseUrl}}/media/:id/summarizations", "host": [ "{{baseUrl}}" ], "path": [ "media", ":id", "summarizations" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Runs AI analysis (summary, chapters, sentiment, or entities) over a transcript."
+          }
+        },
+        {
+          "name": "Retrieve AI analysis result",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/summarizations/:id", "host": [ "{{baseUrl}}" ], "path": [ "summarizations", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves the result of an AI analysis job."
+          }
+        }
+      ]
+    }
+  ]
+}

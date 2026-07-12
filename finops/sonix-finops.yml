@@ -1,0 +1,97 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Sonix
+providerId: sonix
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Sonix spend. Sonix cost is driven primarily by hours of audio
+  and video transcribed and translated, plus AI-workspace hours consumed by AI
+  analysis. On pay-as-you-go the rate is a flat $10 per hour; on the Core,
+  Advanced, and Pro subscriptions a monthly (or annual) fee bundles a block of
+  transcription/translation and AI hours plus storage, with per-seat add-ons.
+  API usage draws down the same allowances as the web app, so programmatic
+  transcription is metered identically. Enterprise agreements cover high-volume
+  and compliance-driven usage with custom pricing.
+notes: >-
+  Per-unit rates were sourced from the public Sonix pricing page and are not
+  reconciled against a live invoice here. The dominant cost meters are
+  transcription/translation hours and AI-workspace hours; storage is a
+  secondary, plan-bounded quota. Verify current rates at https://sonix.ai/pricing.
+sources:
+- https://sonix.ai/pricing
+- https://sonix.ai/api
+- https://sonix.ai/docs/api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Sonix
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Sonix
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Sonix
+  PublisherName: Sonix
+  InvoiceIssuerName: Sonix
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: transcription_hours
+  description: Hours of audio/video transcribed and translated, billed at $10/hr on pay-as-you-go or drawn from a plan's bundled hours.
+  unit: hours
+  aggregation: sum
+  dimensions:
+  - account
+  - folder
+- name: ai_workspace_hours
+  description: Hours of AI analysis (summaries, chapters, sentiment, entities) drawn from the AI-workspace allowance.
+  unit: hours
+  aggregation: sum
+  dimensions:
+  - account
+- name: storage
+  description: Media and transcript storage held in the account, bounded by plan quota (5 GB to 100 GB).
+  unit: bytes
+  aggregation: max
+  dimensions:
+  - account
+- name: seats
+  description: Additional user seats beyond the one included per plan, at $25/mo each.
+  unit: seats
+  aggregation: max
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track transcription/translation hours and AI-workspace hours per account and folder; monitor consumption against the plan's monthly allowance.
+- name: Allocation
+  description: Organize media into folders per team or project so hours and storage map to internal cost centers.
+- name: Optimization
+  description: Choose pay-as-you-go vs a subscription based on monthly hour volume; scope AI analysis to media that needs it; prune stored media to stay within the storage quota.
+- name: Accountability
+  description: Assign owners per folder and review monthly hour and seat usage against the subscription tier before overage or upgrade.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

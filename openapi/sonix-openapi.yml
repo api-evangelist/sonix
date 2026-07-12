@@ -1,0 +1,703 @@
+openapi: 3.0.3
+info:
+  title: Sonix API
+  description: >-
+    The Sonix API lets you programmatically upload audio and video media for
+    automated transcription, retrieve the resulting transcripts, export
+    subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate
+    transcripts into other languages, and run AI analysis (summaries, chapters,
+    sentiment, entities). Sonix transcribes in 54+ languages and translates into
+    55+ languages. The API is available to Sonix subscribers; trial accounts can
+    request an API key from Sonix support. All requests are authorized with a
+    Bearer API key. This description was modeled by API Evangelist from Sonix's
+    public API documentation at https://sonix.ai/docs/api; request and response
+    schemas are honestly modeled where the public docs do not enumerate every
+    field.
+  version: '1.0'
+  contact:
+    name: Sonix
+    url: https://sonix.ai
+  x-modeled-by: API Evangelist
+  x-source: https://sonix.ai/docs/api
+servers:
+  - url: https://api.sonix.ai/v1
+    description: Sonix API v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Media
+    description: Upload and manage audio and video media files for transcription.
+  - name: Transcripts
+    description: Retrieve and edit transcripts produced from media.
+  - name: Translations
+    description: Translate a completed transcript into another language.
+  - name: Exports
+    description: Export transcripts as subtitles, captions, documents, and media burn-ins.
+  - name: AI Analysis
+    description: Generate summaries, chapters, sentiment, and entity analysis from transcripts.
+  - name: Folders
+    description: Organize media into folders.
+paths:
+  /media:
+    get:
+      operationId: listMedia
+      tags:
+        - Media
+      summary: List media files
+      description: >-
+        Lists media files in your account, paginated at 100 per page. The
+        response includes total_pages for iteration.
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: Page number to retrieve.
+      responses:
+        '200':
+          description: A paginated list of media files.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  media:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Media'
+                  total_pages:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createMedia
+      tags:
+        - Media
+      summary: Upload media for transcription
+      description: >-
+        Uploads a new media file for transcription, either as a multipart file
+        upload (up to 100MB) or by passing a file_url for larger or remote
+        files. Specify the spoken language so Sonix transcribes it correctly. An
+        optional callback_url receives a webhook when transcription completes.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaInput'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaInput'
+      responses:
+        '200':
+          description: The created media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /media/{id}:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getMedia
+      tags:
+        - Media
+      summary: Retrieve media status
+      description: >-
+        Retrieves a media file and its transcription status. Status values
+        include preparing, transcribing, aligning, completed, blocked, failed,
+        and duplicate.
+      responses:
+        '200':
+          description: The requested media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateMedia
+      tags:
+        - Media
+      summary: Update media
+      description: Updates a media file's name, label, or folder assignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUpdate'
+      responses:
+        '200':
+          description: The updated media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteMedia
+      tags:
+        - Media
+      summary: Delete media
+      description: Permanently deletes a media file and its transcript.
+      responses:
+        '200':
+          description: The media file was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /media/{id}/media_exports:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    post:
+      operationId: createMediaExport
+      tags:
+        - Exports
+      summary: Export media (mp3/wav/mp4)
+      description: Creates an exported media file (mp3, wav, or mp4) from the source media.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [mp3, wav, mp4]
+      responses:
+        '200':
+          description: The created media export job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media_exports/{id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      operationId: getMediaExport
+      tags:
+        - Exports
+      summary: Check media export status
+      description: Retrieves the status and download URL of a media export job.
+      responses:
+        '200':
+          description: The media export job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/transcript:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getTranscript
+      tags:
+        - Transcripts
+      summary: Retrieve transcript
+      description: >-
+        Retrieves the transcript for a media file as plain text. Use the
+        format query parameter (e.g. avid_ds) or the format-specific paths for
+        other outputs.
+      parameters:
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Optional export format, such as avid_ds.
+      responses:
+        '200':
+          description: The transcript text.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateTranscript
+      tags:
+        - Transcripts
+      summary: Update transcript
+      description: Replaces or edits the transcript content for a media file.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transcript:
+                  type: string
+      responses:
+        '200':
+          description: The updated transcript.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/transcript.srt:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getTranscriptSrt
+      tags:
+        - Exports
+      summary: Export transcript as SRT
+      description: Returns the transcript as an SRT subtitle file.
+      responses:
+        '200':
+          description: SRT subtitle file.
+          content:
+            application/x-subrip:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/transcript.vtt:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getTranscriptVtt
+      tags:
+        - Exports
+      summary: Export transcript as VTT
+      description: Returns the transcript as a WebVTT caption file.
+      responses:
+        '200':
+          description: WebVTT caption file.
+          content:
+            text/vtt:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/transcript.json:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getTranscriptJson
+      tags:
+        - Exports
+      summary: Export transcript as JSON
+      description: >-
+        Returns the transcript as JSON with word-level timings, speaker labels,
+        and confidence scores.
+      responses:
+        '200':
+          description: JSON transcript with word-level timing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptJson'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/transcript/split:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    put:
+      operationId: splitTranscript
+      tags:
+        - Exports
+      summary: Split transcript into subtitles
+      description: >-
+        Splits the transcript into subtitle segments using parameters such as
+        maximum characters per line and maximum lines per subtitle.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                max_characters_per_line:
+                  type: integer
+                max_lines_per_subtitle:
+                  type: integer
+      responses:
+        '200':
+          description: The transcript was split into subtitles.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/translations:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    post:
+      operationId: createTranslation
+      tags:
+        - Translations
+      summary: Create translation
+      description: >-
+        Translates a completed transcript into a target language. Sonix
+        translates into 55+ languages.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - language
+              properties:
+                language:
+                  type: string
+                  description: Target language code (e.g. es, fr, de, ja).
+      responses:
+        '200':
+          description: The created translation job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/translations/{language}:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+      - name: language
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Target language code of the translation to check.
+    get:
+      operationId: getTranslation
+      tags:
+        - Translations
+      summary: Check translation status
+      description: Retrieves the status of a translation for the given target language.
+      responses:
+        '200':
+          description: The translation job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /media/{id}/summarizations:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    post:
+      operationId: createSummarization
+      tags:
+        - AI Analysis
+      summary: Create AI analysis
+      description: >-
+        Runs AI analysis over a transcript to produce a summary, chapters,
+        sentiment analysis, or entity extraction.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [summary, chapters, sentiment, entities]
+      responses:
+        '200':
+          description: The created summarization job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /summarizations/{id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      operationId: getSummarization
+      tags:
+        - AI Analysis
+      summary: Retrieve AI analysis result
+      description: Retrieves the result of an AI analysis (summarization) job.
+      responses:
+        '200':
+          description: The summarization result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /media/{id}/video_burn_ins:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    post:
+      operationId: createVideoBurnIn
+      tags:
+        - Exports
+      summary: Burn subtitles into video
+      description: Creates a video with subtitles burned in from the transcript.
+      responses:
+        '200':
+          description: The created video burn-in job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video_burn_ins/{id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      operationId: getVideoBurnIn
+      tags:
+        - Exports
+      summary: Check video burn-in status
+      description: Retrieves the status and download URL of a video burn-in job.
+      responses:
+        '200':
+          description: The video burn-in job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /folders:
+    get:
+      operationId: listFolders
+      tags:
+        - Folders
+      summary: List folders
+      description: Lists all folders in your account.
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  folders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createFolder
+      tags:
+        - Folders
+      summary: Create folder
+      description: Creates a new folder to organize media.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: The created folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /folders/{id}:
+    parameters:
+      - $ref: '#/components/parameters/FolderId'
+    put:
+      operationId: updateFolder
+      tags:
+        - Folders
+      summary: Update folder
+      description: Updates a folder's properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: The updated folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Sonix API key passed as `Authorization: Bearer <API Key>`. Subscribers
+        find their key at https://my.sonix.ai/api; trial accounts request one
+        from Sonix support.
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
+    JobId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the job.
+    FolderId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the folder.
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          description: One of preparing, transcribing, aligning, completed, blocked, failed, duplicate.
+        language:
+          type: string
+        folder_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    MediaInput:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The media file to upload (multipart, up to 100MB).
+        file_url:
+          type: string
+          description: URL of a remote media file to transcribe (for large or remote files).
+        name:
+          type: string
+        language:
+          type: string
+          description: Spoken language code of the media (e.g. en, es, fr).
+        folder_id:
+          type: string
+        callback_url:
+          type: string
+          description: Webhook URL called when transcription completes.
+    MediaUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        label:
+          type: string
+        folder_id:
+          type: string
+    TranscriptJson:
+      type: object
+      properties:
+        name:
+          type: string
+        transcript:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              start_time:
+                type: number
+              end_time:
+                type: number
+              speaker:
+                type: string
+              confidence:
+                type: number
+    Translation:
+      type: object
+      properties:
+        language:
+          type: string
+        status:
+          type: string
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+          description: Download URL for the job output when available.
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string

@@ -1,0 +1,99 @@
+aid: sonix
+name: Sonix
+review:
+  question: Does Sonix expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Sonix's public API documentation
+    (https://sonix.ai/docs/api) describes a request/response REST API over
+    HTTPS at https://api.sonix.ai/v1. Transcription is asynchronous but is
+    surfaced through polling (GET the media/transcript resource until status is
+    completed) and an optional completion webhook (callback_url), not a
+    server-push streaming transport. Sonix markets a real-time streaming
+    transcription capability, but access to it "requires contacting sales" and
+    no public real-time/WebSocket endpoint, protocol, or schema is documented.
+    With no publicly documented server-push transport on Sonix's own API, there
+    was nothing to model as AsyncAPI.
+findings:
+  summary: |
+    Sonix does not publish a documented public WebSocket API. Sonix is an AI
+    audio/video transcription, subtitle, and translation platform. Its public
+    REST API (base https://api.sonix.ai/v1) is authorized with a Bearer API
+    key and covers media upload/management, transcript retrieval and editing,
+    subtitle/caption exports (SRT, VTT, TXT, JSON), translations, and AI
+    analysis (summaries, chapters, sentiment, entities). Transcription is
+    asynchronous: clients upload media, then poll the media/transcript resource
+    for status, or receive an HTTP webhook at an optional callback_url when
+    transcription completes. Sonix advertises a real-time streaming
+    transcription option, but it is gated behind a sales conversation and has
+    no publicly documented endpoint, so it cannot be confirmed as a WebSocket
+    surface. No realtime, bidirectional, or streaming WebSocket (ws:// or
+    wss://) endpoint is documented on Sonix's public API as of the review date.
+  accessModel: |
+    The Sonix API is available to Sonix subscribers on every paid plan; API
+    access is included with Pay As You Go and the Core/Advanced/Pro
+    subscription tiers. Subscribers retrieve their API key at
+    https://my.sonix.ai/api. Trial accounts (which include a small amount of
+    free transcription) can request an API key from Sonix support. The API is
+    therefore public and documented, but requires an account to obtain
+    credentials.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.sonix.ai/v1
+      documented: true
+      note: Bearer-authorized request/response REST for media, transcripts, translations, exports, and AI analysis.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Optional callback_url on media creation receives an HTTP webhook when transcription completes. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Sonix's public API reference. A real-time streaming transcription option is marketed but gated behind sales and not publicly documented.
+  endpointsConfirmedRest:
+    - GET    https://api.sonix.ai/v1/media
+    - POST   https://api.sonix.ai/v1/media
+    - GET    https://api.sonix.ai/v1/media/{id}
+    - PUT    https://api.sonix.ai/v1/media/{id}
+    - DELETE https://api.sonix.ai/v1/media/{id}
+    - POST   https://api.sonix.ai/v1/media/{id}/media_exports
+    - GET    https://api.sonix.ai/v1/media_exports/{id}
+    - GET    https://api.sonix.ai/v1/media/{id}/transcript
+    - PUT    https://api.sonix.ai/v1/media/{id}/transcript
+    - GET    https://api.sonix.ai/v1/media/{id}/transcript.srt
+    - GET    https://api.sonix.ai/v1/media/{id}/transcript.vtt
+    - GET    https://api.sonix.ai/v1/media/{id}/transcript.json
+    - PUT    https://api.sonix.ai/v1/media/{id}/transcript/split
+    - POST   https://api.sonix.ai/v1/media/{id}/translations
+    - GET    https://api.sonix.ai/v1/media/{id}/translations/{language}
+    - POST   https://api.sonix.ai/v1/media/{id}/summarizations
+    - GET    https://api.sonix.ai/v1/summarizations/{id}
+    - POST   https://api.sonix.ai/v1/media/{id}/video_burn_ins
+    - GET    https://api.sonix.ai/v1/video_burn_ins/{id}
+    - POST   https://api.sonix.ai/v1/folders
+    - GET    https://api.sonix.ai/v1/folders
+    - PUT    https://api.sonix.ai/v1/folders/{id}
+sources:
+  - url: https://sonix.ai/docs/api
+    type: Documentation
+    note: Base URL https://api.sonix.ai/v1, Bearer auth, and all REST endpoints. No WebSocket mentioned.
+  - url: https://sonix.ai/api
+    type: Documentation
+    note: Speech-to-Text API marketing page; mentions webhooks and a real-time streaming option that requires contacting sales.
+  - url: https://sonix.ai/pricing
+    type: Documentation
+    note: API access included on all subscription tiers; pay-as-you-go and monthly plans.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface is documented on Sonix's public API. Sonix's
+    own public API is request/response REST plus an optional completion
+    webhook; asynchronous transcription is consumed by polling. No AsyncAPI
+    document was created because there is no publicly documented server-push
+    transport to model. The marketed real-time streaming option is gated behind
+    sales and undocumented, so it was not represented as a WebSocket surface.
