@@ -135,6 +135,8 @@ apis:
     sentiment analysis, and entity extraction, and retrieve or batch these
     summarization jobs across a folder of media.
 common:
+- type: AgenticAccess
+  url: agentic-access/sonix-agentic-access.yml
 - type: Authentication
   url: authentication/sonix-authentication.yml
 - type: LinkedIn
