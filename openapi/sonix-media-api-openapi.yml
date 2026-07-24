@@ -1,0 +1,219 @@
+openapi: 3.0.3
+info:
+  title: Sonix AI Analysis Media API
+  description: The Sonix API lets you programmatically upload audio and video media for automated transcription, retrieve the resulting transcripts, export subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate transcripts into other languages, and run AI analysis (summaries, chapters, sentiment, entities). Sonix transcribes in 54+ languages and translates into 55+ languages. The API is available to Sonix subscribers; trial accounts can request an API key from Sonix support. All requests are authorized with a Bearer API key. This description was modeled by API Evangelist from Sonix's public API documentation at https://sonix.ai/docs/api; request and response schemas are honestly modeled where the public docs do not enumerate every field.
+  version: '1.0'
+  contact:
+    name: Sonix
+    url: https://sonix.ai
+  x-modeled-by: API Evangelist
+  x-source: https://sonix.ai/docs/api
+servers:
+- url: https://api.sonix.ai/v1
+  description: Sonix API v1
+security:
+- bearerAuth: []
+tags:
+- name: Media
+  description: Upload and manage audio and video media files for transcription.
+paths:
+  /media:
+    get:
+      operationId: listMedia
+      tags:
+      - Media
+      summary: List media files
+      description: Lists media files in your account, paginated at 100 per page. The response includes total_pages for iteration.
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+        description: Page number to retrieve.
+      responses:
+        '200':
+          description: A paginated list of media files.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  media:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Media'
+                  total_pages:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createMedia
+      tags:
+      - Media
+      summary: Upload media for transcription
+      description: Uploads a new media file for transcription, either as a multipart file upload (up to 100MB) or by passing a file_url for larger or remote files. Specify the spoken language so Sonix transcribes it correctly. An optional callback_url receives a webhook when transcription completes.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaInput'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaInput'
+      responses:
+        '200':
+          description: The created media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+  /media/{id}:
+    parameters:
+    - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getMedia
+      tags:
+      - Media
+      summary: Retrieve media status
+      description: Retrieves a media file and its transcription status. Status values include preparing, transcribing, aligning, completed, blocked, failed, and duplicate.
+      responses:
+        '200':
+          description: The requested media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateMedia
+      tags:
+      - Media
+      summary: Update media
+      description: Updates a media file's name, label, or folder assignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUpdate'
+      responses:
+        '200':
+          description: The updated media resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteMedia
+      tags:
+      - Media
+      summary: Delete media
+      description: Permanently deletes a media file and its transcript.
+      responses:
+        '200':
+          description: The media file was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          description: One of preparing, transcribing, aligning, completed, blocked, failed, duplicate.
+        language:
+          type: string
+        folder_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    MediaInput:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The media file to upload (multipart, up to 100MB).
+        file_url:
+          type: string
+          description: URL of a remote media file to transcribe (for large or remote files).
+        name:
+          type: string
+        language:
+          type: string
+          description: Spoken language code of the media (e.g. en, es, fr).
+        folder_id:
+          type: string
+        callback_url:
+          type: string
+          description: Webhook URL called when transcription completes.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    MediaUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        label:
+          type: string
+        folder_id:
+          type: string
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Sonix API key passed as `Authorization: Bearer <API Key>`. Subscribers find their key at https://my.sonix.ai/api; trial accounts request one from Sonix support.'

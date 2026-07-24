@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Sonix AI Analysis Transcripts API
+  description: The Sonix API lets you programmatically upload audio and video media for automated transcription, retrieve the resulting transcripts, export subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate transcripts into other languages, and run AI analysis (summaries, chapters, sentiment, entities). Sonix transcribes in 54+ languages and translates into 55+ languages. The API is available to Sonix subscribers; trial accounts can request an API key from Sonix support. All requests are authorized with a Bearer API key. This description was modeled by API Evangelist from Sonix's public API documentation at https://sonix.ai/docs/api; request and response schemas are honestly modeled where the public docs do not enumerate every field.
+  version: '1.0'
+  contact:
+    name: Sonix
+    url: https://sonix.ai
+  x-modeled-by: API Evangelist
+  x-source: https://sonix.ai/docs/api
+servers:
+- url: https://api.sonix.ai/v1
+  description: Sonix API v1
+security:
+- bearerAuth: []
+tags:
+- name: Transcripts
+  description: Retrieve and edit transcripts produced from media.
+paths:
+  /media/{id}/transcript:
+    parameters:
+    - $ref: '#/components/parameters/MediaId'
+    get:
+      operationId: getTranscript
+      tags:
+      - Transcripts
+      summary: Retrieve transcript
+      description: Retrieves the transcript for a media file as plain text. Use the format query parameter (e.g. avid_ds) or the format-specific paths for other outputs.
+      parameters:
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional export format, such as avid_ds.
+      responses:
+        '200':
+          description: The transcript text.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateTranscript
+      tags:
+      - Transcripts
+      summary: Update transcript
+      description: Replaces or edits the transcript content for a media file.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transcript:
+                  type: string
+      responses:
+        '200':
+          description: The updated transcript.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Sonix API key passed as `Authorization: Bearer <API Key>`. Subscribers find their key at https://my.sonix.ai/api; trial accounts request one from Sonix support.'

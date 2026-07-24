@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Sonix AI Analysis Folders API
+  description: The Sonix API lets you programmatically upload audio and video media for automated transcription, retrieve the resulting transcripts, export subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate transcripts into other languages, and run AI analysis (summaries, chapters, sentiment, entities). Sonix transcribes in 54+ languages and translates into 55+ languages. The API is available to Sonix subscribers; trial accounts can request an API key from Sonix support. All requests are authorized with a Bearer API key. This description was modeled by API Evangelist from Sonix's public API documentation at https://sonix.ai/docs/api; request and response schemas are honestly modeled where the public docs do not enumerate every field.
+  version: '1.0'
+  contact:
+    name: Sonix
+    url: https://sonix.ai
+  x-modeled-by: API Evangelist
+  x-source: https://sonix.ai/docs/api
+servers:
+- url: https://api.sonix.ai/v1
+  description: Sonix API v1
+security:
+- bearerAuth: []
+tags:
+- name: Folders
+  description: Organize media into folders.
+paths:
+  /folders:
+    get:
+      operationId: listFolders
+      tags:
+      - Folders
+      summary: List folders
+      description: Lists all folders in your account.
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  folders:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createFolder
+      tags:
+      - Folders
+      summary: Create folder
+      description: Creates a new folder to organize media.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: The created folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /folders/{id}:
+    parameters:
+    - $ref: '#/components/parameters/FolderId'
+    put:
+      operationId: updateFolder
+      tags:
+      - Folders
+      summary: Update folder
+      description: Updates a folder's properties.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: The updated folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+  parameters:
+    FolderId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the folder.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Sonix API key passed as `Authorization: Bearer <API Key>`. Subscribers find their key at https://my.sonix.ai/api; trial accounts request one from Sonix support.'
