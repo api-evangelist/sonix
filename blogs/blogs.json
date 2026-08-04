@@ -1,0 +1,21 @@
+{
+  "repo": "sonix",
+  "feeds": [
+    {
+      "source": "https://sonix.ai/resources/feed/",
+      "feed_url": "https://sonix.ai/resources/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://sonix.ai/resources",
+      "feed_url": "https://sonix.ai/resources/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-08-01T15:49:00Z"
+}

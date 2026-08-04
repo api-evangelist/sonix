@@ -1,0 +1,24 @@
+{
+  "provider": "sonix",
+  "sources": [
+    "sonix-ai-analysis-api-openapi.yml",
+    "sonix-exports-api-openapi.yml",
+    "sonix-folders-api-openapi.yml",
+    "sonix-media-api-openapi.yml",
+    "sonix-transcripts-api-openapi.yml",
+    "sonix-translations-api-openapi.yml"
+  ],
+  "outputs": [
+    "sonix-ai-analysis-api-openapi.yml",
+    "sonix-exports-api-openapi.yml",
+    "sonix-folders-api-openapi.yml",
+    "sonix-media-api-openapi.yml",
+    "sonix-transcripts-api-openapi.yml",
+    "sonix-translations-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
