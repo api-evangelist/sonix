@@ -1,0 +1,184 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix AI Analysis Exports API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Exports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export media (mp3/wav/mp4)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/media_exports",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an exported media file (mp3, wav, or mp4) from the source media."
+        },
+        {
+          "info": {
+            "name": "Check media export status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media_exports/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the job."
+              }
+            ]
+          },
+          "docs": "Retrieves the status and download URL of a media export job."
+        },
+        {
+          "info": {
+            "name": "Export transcript as SRT",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.srt",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Returns the transcript as an SRT subtitle file."
+        },
+        {
+          "info": {
+            "name": "Export transcript as VTT",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.vtt",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Returns the transcript as a WebVTT caption file."
+        },
+        {
+          "info": {
+            "name": "Export transcript as JSON",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript.json",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Returns the transcript as JSON with word-level timings, speaker labels, and confidence scores."
+        },
+        {
+          "info": {
+            "name": "Split transcript into subtitles",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript/split",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Splits the transcript into subtitle segments using parameters such as maximum characters per line and maximum lines per subtitle."
+        },
+        {
+          "info": {
+            "name": "Burn subtitles into video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/video_burn_ins",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Creates a video with subtitles burned in from the transcript."
+        },
+        {
+          "info": {
+            "name": "Check video burn-in status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/video_burn_ins/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the job."
+              }
+            ]
+          },
+          "docs": "Retrieves the status and download URL of a video burn-in job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

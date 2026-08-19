@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix AI Analysis Transcripts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transcripts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Optional export format, such as avid_ds."
+              }
+            ]
+          },
+          "docs": "Retrieves the transcript for a media file as plain text. Use the format query parameter (e.g. avid_ds) or the format-specific paths for other outputs."
+        },
+        {
+          "info": {
+            "name": "Update transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id/transcript",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces or edits the transcript content for a media file."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

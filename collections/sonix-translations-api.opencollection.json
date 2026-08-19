@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix AI Analysis Translations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Translations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create translation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/translations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Translates a completed transcript into a target language. Sonix translates into 55+ languages."
+        },
+        {
+          "info": {
+            "name": "Check translation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id/translations/:language",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "path",
+                "description": "Target language code of the translation to check."
+              }
+            ]
+          },
+          "docs": "Retrieves the status of a translation for the given target language."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

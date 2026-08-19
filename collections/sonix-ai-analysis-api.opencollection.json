@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix AI Analysis API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Analysis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create AI analysis",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media/:id/summarizations",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Runs AI analysis over a transcript to produce a summary, chapters, sentiment analysis, or entity extraction."
+        },
+        {
+          "info": {
+            "name": "Retrieve AI analysis result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/summarizations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the job."
+              }
+            ]
+          },
+          "docs": "Retrieves the result of an AI analysis (summarization) job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

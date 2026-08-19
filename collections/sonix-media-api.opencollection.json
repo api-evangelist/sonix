@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sonix AI Analysis Media API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List media files",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve."
+              }
+            ]
+          },
+          "docs": "Lists media files in your account, paginated at 100 per page. The response includes total_pages for iteration."
+        },
+        {
+          "info": {
+            "name": "Upload media for transcription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.sonix.ai/v1/media",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a new media file for transcription, either as a multipart file upload (up to 100MB) or by passing a file_url for larger or remote files. Specify the spoken language so Sonix transcribes it correctly. An optional callback_url receives a webhook when transcription completes."
+        },
+        {
+          "info": {
+            "name": "Retrieve media status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Retrieves a media file and its transcription status. Status values include preparing, transcribing, aligning, completed, blocked, failed, and duplicate."
+        },
+        {
+          "info": {
+            "name": "Update media",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a media file's name, label, or folder assignment."
+        },
+        {
+          "info": {
+            "name": "Delete media",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.sonix.ai/v1/media/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the media file."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a media file and its transcript."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
