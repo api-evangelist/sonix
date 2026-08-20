@@ -31,6 +31,15 @@ tags:
 - Subtitles
 - Captions
 - Translation
+- Artificial Intelligence
+- Media
+tags_raw:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Subtitles
+- Captions
+- Translation
 - AI
 - Media
 created: '2026-07-11'
@@ -61,6 +70,8 @@ apis:
   humanURL: https://sonix.ai/docs/api
   baseURL: https://api.sonix.ai/v1
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
