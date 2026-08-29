@@ -10,6 +10,18 @@ description: Sonix is an AI-powered platform for automated audio and video trans
   subscribers - lets developers upload media, poll transcription status, retrieve
   and edit transcripts, export subtitles, and translate, all authorized with a
   Bearer API key against https://api.sonix.ai/v1.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
