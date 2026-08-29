@@ -1,0 +1,36 @@
+slug: sonix
+provider: Sonix
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Exports
+  spec_file: sonix-exports-api-openapi.yml
+  capability_id: BC-3700.60
+  capability_id_l1: BC-3700
+  capability_name: Localisation & Versioning Management
+  confidence: 0.8
+  evidence: '"Export transcript as SRT", "Split transcript into subtitles", "Burn subtitles into video"'
+  reason: Operations produce subtitle/caption files and burned-in subtitle video renditions from media
+    — squarely subtitling/captioning and version-master production. Some media export operations (mp3/wav/mp4)
+    also touch format conversion, hence 0.8 rather than higher.
+- tag: Translations
+  spec_file: sonix-translations-api-openapi.yml
+  capability_id: BC-3700.60
+  capability_id_l1: BC-3700
+  capability_name: Localisation & Versioning Management
+  confidence: 0.8
+  evidence: 'POST /media/{id}/translations — "Create translation"; description: "translate transcripts
+    into other languages"'
+  reason: Producing translated language versions of media transcripts is localisation and versioning of
+    audiovisual content. Clear fit; only residual doubt is whether the buyer treats it as generic translation
+    tooling.

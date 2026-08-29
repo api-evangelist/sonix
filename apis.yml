@@ -169,6 +169,9 @@ apis:
   - type: OpenCollection
     url: collections/sonix.opencollection.json
 common:
+- type: CapabilityMap
+  url: capabilities/sonix-capability-edges.yml
+  name: Sonix Business Capability Map
 - type: AgenticAccess
   url: agentic-access/sonix-agentic-access.yml
 - type: Authentication
