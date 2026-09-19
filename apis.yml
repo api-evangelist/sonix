@@ -156,6 +156,8 @@ apis:
   humanURL: https://sonix.ai/docs/api
   baseURL: https://api.sonix.ai/v1
   tags:
+  - Translation
+  tags_raw:
   - Translations
   properties:
   - type: OpenAPI
