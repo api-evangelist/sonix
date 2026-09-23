@@ -1,0 +1,27 @@
+# Front Door AI Index — sonix — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: sonix
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: sonix.ai
+  final_host: sonix.ai
+  ownership: own
+  owner: sonix
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 18
+  host_score: 18
+  density: 15.35
+  words: 1173
+  tiers:
+    agentic: 0
+    core: 18
+    model: 0
+  ambiguous: 2
+  top_terms:
+    AI: 18
+    intelligence: 1
+    smart: 1

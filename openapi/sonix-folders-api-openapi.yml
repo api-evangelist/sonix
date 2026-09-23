@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Sonix AI Analysis Folders API
-  description: The Sonix API lets you programmatically upload audio and video media for automated transcription, retrieve the resulting transcripts, export subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate transcripts into other languages, and run AI analysis (summaries, chapters, sentiment, entities). Sonix transcribes in 54+ languages and translates into 55+ languages. The API is available to Sonix subscribers; trial accounts can request an API key from Sonix support. All requests are authorized with a Bearer API key. This description was modeled by API Evangelist from Sonix's public API documentation at https://sonix.ai/docs/api; request and response schemas are honestly modeled where the public docs do not enumerate every field.
+  title: Sonix Folders API
+  description: The Sonix API lets you programmatically upload audio and video media for automated transcription, retrieve the resulting transcripts, export subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), translate transcripts into other languages, and run AI analysis (summaries, chapters, sentiment, entities).
   version: '1.0'
   contact:
     name: Sonix
@@ -90,6 +90,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    FolderId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the folder.
   responses:
     Unauthorized:
       description: The API key is missing or invalid.
@@ -112,14 +120,6 @@ components:
           type: string
         name:
           type: string
-  parameters:
-    FolderId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the folder.
   securitySchemes:
     bearerAuth:
       type: http

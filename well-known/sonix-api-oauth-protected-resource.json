@@ -1,0 +1,1 @@
+{"resource":"https://api.sonix.ai/mcp","authorization_servers":["https://api.sonix.ai"],"scopes_supported":["mcp:read"],"bearer_methods_supported":["header"],"resource_documentation":"https://sonix.ai/docs/api#mcp_requirements"}

@@ -1,12 +1,7 @@
 {
   "provider": "sonix",
   "sources": [
-    "sonix-ai-analysis-api-openapi.yml",
-    "sonix-exports-api-openapi.yml",
-    "sonix-folders-api-openapi.yml",
-    "sonix-media-api-openapi.yml",
-    "sonix-transcripts-api-openapi.yml",
-    "sonix-translations-api-openapi.yml"
+    "_original/sonix-openapi.yml"
   ],
   "outputs": [
     "sonix-ai-analysis-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "sonix-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "sonix-ai-analysis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonix-exports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonix-folders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonix-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonix-transcripts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sonix-translations-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
