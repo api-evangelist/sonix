@@ -131,17 +131,9 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    MediaId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the media file.
   responses:
-    NotFound:
-      description: The requested resource was not found.
+    ValidationError:
+      description: The request was invalid.
       content:
         application/json:
           schema:
@@ -152,29 +144,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request was invalid.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    MediaUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        label:
-          type: string
-        folder_id:
-          type: string
     MediaInput:
       type: object
       properties:
@@ -212,6 +188,30 @@ components:
         created_at:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    MediaUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        label:
+          type: string
+        folder_id:
+          type: string
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
   securitySchemes:
     bearerAuth:
       type: http

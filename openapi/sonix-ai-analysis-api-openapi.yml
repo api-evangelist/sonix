@@ -68,6 +68,13 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Job:
       type: object
@@ -86,21 +93,7 @@ components:
           type: string
         message:
           type: string
-  responses:
-    Unauthorized:
-      description: The API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    JobId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the job.
     MediaId:
       name: id
       in: path
@@ -108,6 +101,13 @@ components:
       schema:
         type: string
       description: The unique identifier of the media file.
+    JobId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the job.
   securitySchemes:
     bearerAuth:
       type: http
