@@ -78,14 +78,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    MediaId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the media file.
   schemas:
     Error:
       type: object
@@ -94,6 +86,14 @@ components:
           type: string
         message:
           type: string
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
   securitySchemes:
     bearerAuth:
       type: http

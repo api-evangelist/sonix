@@ -90,21 +90,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    Folder:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
   parameters:
     FolderId:
       name: id
@@ -113,6 +98,21 @@ components:
       schema:
         type: string
       description: The unique identifier of the folder.
+  schemas:
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   responses:
     Unauthorized:
       description: The API key is missing or invalid.
