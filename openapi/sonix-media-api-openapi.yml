@@ -131,33 +131,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    ValidationError:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Media:
       type: object
       properties:
@@ -175,14 +149,12 @@ components:
         created_at:
           type: string
           format: date-time
-    MediaUpdate:
+    Error:
       type: object
       properties:
-        name:
+        error:
           type: string
-        label:
-          type: string
-        folder_id:
+        message:
           type: string
     MediaInput:
       type: object
@@ -204,6 +176,34 @@ components:
         callback_url:
           type: string
           description: Webhook URL called when transcription completes.
+    MediaUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        label:
+          type: string
+        folder_id:
+          type: string
+  responses:
+    ValidationError:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     MediaId:
       name: id

@@ -69,6 +69,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     Job:
       type: object
       properties:
@@ -79,21 +86,7 @@ components:
         url:
           type: string
           description: Download URL for the job output when available.
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   parameters:
-    JobId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the job.
     MediaId:
       name: id
       in: path
@@ -101,6 +94,13 @@ components:
       schema:
         type: string
       description: The unique identifier of the media file.
+    JobId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the job.
   responses:
     Unauthorized:
       description: The API key is missing or invalid.
