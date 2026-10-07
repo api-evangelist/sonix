@@ -171,6 +171,8 @@ apis:
   - type: OpenCollection
     url: collections/sonix.opencollection.json
 common:
+- type: Pricing
+  url: https://sonix.ai/pricing
 - type: CapabilityMap
   url: capabilities/sonix-capability-edges.yml
   name: Sonix Business Capability Map
