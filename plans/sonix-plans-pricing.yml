@@ -1,207 +1,160 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Sonix
-providerId: sonix
-created: '2026-07-11'
-modified: '2026-07-11'
-reconciled: false
-tags:
-- Audio Transcription
-- Transcription
-- Speech-to-Text
-- Subtitles
-- Translation
-- Plans
-description: >-
-  Sonix bills for transcription and translation on either a pay-as-you-go
-  per-hour basis or a monthly/annual subscription that bundles a block of
-  transcription and AI hours plus storage. API access is included on every paid
-  plan - pay-as-you-go and the Core, Advanced, and Pro subscriptions - so any
-  subscriber can obtain an API key. Trial accounts include a small amount of
-  free transcription and can request an API key from Sonix support. Prices below
-  were sourced from the public Sonix pricing page and should be re-verified
-  during reconciliation.
-notes: >-
-  The API itself carries no separate fee; API usage draws down the same
-  per-hour transcription/translation and AI workspace allowances as the web app.
-  Enterprise pricing is custom and adds compliance (SOC 2, HIPAA, GDPR) and
-  dedicated support. Verify current rates at https://sonix.ai/pricing.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://sonix.ai/pricing
 sources:
 - https://sonix.ai/pricing
-- https://sonix.ai/api
-- https://sonix.ai/docs/api
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T112025
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-07'
+published: true
+note: Plans include API access; prices listed in USD. Free trial of 30 minutes. Enterprise is custom-priced.
+plan_count: 8
+currency: USD
 plans:
-- id: sonix-pay-as-you-go
-  name: Pay As You Go
-  type: usage
-  description: >-
-    No monthly commitment; pay per hour of transcription and translation.
-    Includes 5 GB storage, a single-user account, self-serve support, and API
-    access.
-  entries:
-  - label: Transcription and Translation
-    name: payg_hours
-    type: usage
-    metric: hours
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $10 per hour
-    userMultiplied: false
-  elements:
-  - name: API Access
-  - name: 5 GB Storage
-  - name: Single User
-  - name: 54+ Transcription Languages
-  - name: 55+ Translation Languages
-- id: sonix-core
-  name: Core
-  type: subscription
-  description: >-
-    Monthly subscription bundling transcription/translation and AI workspace
-    hours with 25 GB storage. $25/mo or $275/yr. Includes API access; extra
-    seats are $25/mo each.
-  entries:
-  - label: Monthly Subscription
-    name: core_monthly
-    type: flat
-    metric: subscription
-    limit: 1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $25 per month (or $275 per year)
-    userMultiplied: false
-  - label: Included Transcription and Translation
-    name: core_hours
-    type: usage
-    metric: hours
-    limit: 5
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (5 hrs/mo; 60 hrs/yr)
-    userMultiplied: false
-  - label: Included AI Workspace
-    name: core_ai_hours
-    type: usage
-    metric: hours
-    limit: 5
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (5 hrs/mo; 60 hrs/yr)
-    userMultiplied: false
-  elements:
-  - name: API Access
-  - name: 25 GB Storage
-  - name: Email Support (48-hour)
-- id: sonix-advanced
-  name: Advanced
-  type: subscription
-  description: >-
-    Most popular subscription with larger transcription and AI allowances and
-    50 GB storage. $50/mo or $550/yr. Includes API access; extra seats $25/mo.
-  entries:
-  - label: Monthly Subscription
-    name: advanced_monthly
-    type: flat
-    metric: subscription
-    limit: 1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $50 per month (or $550 per year)
-    userMultiplied: false
-  - label: Included Transcription and Translation
-    name: advanced_hours
-    type: usage
-    metric: hours
-    limit: 20
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (20 hrs/mo; 240 hrs/yr)
-    userMultiplied: false
-  - label: Included AI Workspace
-    name: advanced_ai_hours
-    type: usage
-    metric: hours
-    limit: 25
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (25 hrs/mo; 300 hrs/yr)
-    userMultiplied: false
-  elements:
-  - name: API Access
-  - name: 50 GB Storage
-  - name: Email and Chat Support (12-hour)
-- id: sonix-pro
-  name: Pro
-  type: subscription
-  description: >-
-    Highest published subscription with the largest allowances and 100 GB
-    storage. $80/mo or $880/yr. Includes API access; extra seats $25/mo.
-  entries:
-  - label: Monthly Subscription
-    name: pro_monthly
-    type: flat
-    metric: subscription
-    limit: 1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $80 per month (or $880 per year)
-    userMultiplied: false
-  - label: Included Transcription and Translation
-    name: pro_hours
-    type: usage
-    metric: hours
-    limit: 40
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (40 hrs/mo; 480 hrs/yr)
-    userMultiplied: false
-  - label: Included AI Workspace
-    name: pro_ai_hours
-    type: usage
-    metric: hours
-    limit: 100
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: included (100 hrs/mo; 1200 hrs/yr)
-    userMultiplied: false
-  elements:
-  - name: API Access
-  - name: 100 GB Storage
-  - name: Priority Support (4-hour)
-- id: sonix-enterprise
-  name: Enterprise
-  type: enterprise
-  description: >-
-    Custom plan for high-volume and compliance-sensitive customers, adding SOC
-    2, HIPAA, and GDPR compliance, enhanced security, and dedicated support.
-    Contact Sonix.
-  entries:
-  - label: Enterprise Agreement
-    name: enterprise
-    type: flat
-    metric: contract
-    limit: -1
-    timeFrame: year
-    geo: global
-    unit: 1
-    price: custom pricing (contact sales)
-    userMultiplied: false
-  elements:
-  - name: Custom Volume Pricing
-  - name: SOC 2 / HIPAA / GDPR Compliance
-  - name: Dedicated Support
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- name: Pay As You Go
+  price_text: $10/hr
+  price: 10
+  currency: USD
+  period: per-use
+  unit: hour of audio/video
+  included_quota: 'Pay as you go transcription & translation; AI workspace usage: Not available; 5 GB
+    storage; Single-user account workspace'
+- name: Core (monthly)
+  price_text: $25/mo
+  price: 25
+  currency: USD
+  period: month
+  unit: workspace
+  included_quota: 5 hrs/mo transcription & translation; 5 hrs/mo AI workspace usage; 25 GB storage; 1
+    user included
+  overage: +$25/mo per extra seat; Additional hours billed at $10/hr
+- name: Core (annual)
+  price_text: $275/yr
+  price: 275
+  currency: USD
+  period: year
+  unit: workspace
+  included_quota: 60 hrs/yr transcription & translation; 60 hrs/yr AI workspace usage; 25 GB storage;
+    1 user included
+  overage: +$275/yr per extra seat
+- name: Advanced (monthly)
+  price_text: $50/mo
+  price: 50
+  currency: USD
+  period: month
+  unit: workspace
+  included_quota: 20 hrs/mo transcription & translation; 25 hrs/mo AI workspace usage; 50 GB storage;
+    1 user included
+  overage: +$25/mo per extra seat; Additional hours billed at $10/hr
+- name: Advanced (annual)
+  price_text: $550/yr
+  price: 550
+  currency: USD
+  period: year
+  unit: workspace
+  included_quota: 240 hrs/yr transcription & translation; 300 hrs/yr AI workspace usage; 50 GB storage
+  overage: +$275/yr per extra seat
+- name: Pro (monthly)
+  price_text: $80/mo
+  price: 80
+  currency: USD
+  period: month
+  unit: workspace
+  included_quota: 40 hrs/mo transcription & translation; 100 hrs/mo AI workspace usage; 100 GB storage;
+    1 user included
+  overage: +$25/mo per extra seat; Additional hours billed at $10/hr
+- name: Pro (annual)
+  price_text: $880/yr
+  price: 880
+  currency: USD
+  period: year
+  unit: workspace
+  included_quota: 480 hrs/yr transcription & translation; 1,200 hrs/yr AI workspace usage; 100 GB storage
+  overage: +$275/yr per extra seat
+- name: Enterprise
+  price_text: Custom pricing for your org
+  period: none
+  included_quota: Everything in Pro, plus SSO/SAML, SCIM, audit logs, 1 TB storage per workspace, unlimited
+    team members, custom hours
+  overage: Volume pricing on additional hours
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units:
+  - compute
+  - object
+  plans:
+  - name: Pay As You Go
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - other
+  - name: Core (monthly)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Core (annual)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - year
+  - name: Advanced (monthly)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Advanced (annual)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - year
+  - name: Pro (monthly)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - month
+  - name: Pro (annual)
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - object
+    periods:
+    - year
+  - name: Enterprise
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
