@@ -65,6 +65,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
   responses:
     NotFound:
       description: The requested resource was not found.
@@ -78,14 +86,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   parameters:
     MediaId:
       name: id

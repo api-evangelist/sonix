@@ -131,30 +131,42 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: The API key is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    MediaId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the media file.
   schemas:
-    Media:
+    MediaUpdate:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
-        status:
-          type: string
-          description: One of preparing, transcribing, aligning, completed, blocked, failed, duplicate.
-        language:
+        label:
           type: string
         folder_id:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
           type: string
     MediaInput:
       type: object
@@ -176,42 +188,30 @@ components:
         callback_url:
           type: string
           description: Webhook URL called when transcription completes.
-    MediaUpdate:
+    Error:
       type: object
       properties:
+        error:
+          type: string
+        message:
+          type: string
+    Media:
+      type: object
+      properties:
+        id:
+          type: string
         name:
           type: string
-        label:
+        status:
+          type: string
+          description: One of preparing, transcribing, aligning, completed, blocked, failed, duplicate.
+        language:
           type: string
         folder_id:
           type: string
-  responses:
-    ValidationError:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: The API key is missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    MediaId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The unique identifier of the media file.
+        created_at:
+          type: string
+          format: date-time
   securitySchemes:
     bearerAuth:
       type: http
