@@ -1,4 +1,4 @@
-# Sonix (sonix)
+# Sonix
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,150 +64,135 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Sonix is an AI-powered platform for automated audio and video transcription, subtitles, and translation. It transcribes in 54+ languages with speaker labels and word-level timestamps, translates transcripts into 55+ languages, generates subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), and runs AI analysis (summaries, chapters, sentiment, entities). The Sonix REST API - available to subscribers - lets developers upload media, poll transcription status, retrieve and edit transcripts, export subtitles, and translate, all authorized with a Bearer API key against `https://api.sonix.ai/v1`.
+Sonix is an AI-powered platform for automated audio and video transcription, subtitles, and translation. It transcribes in 54+ languages with speaker labels and word-level timestamps, translates transcripts into 55+ languages, generates subtitles and captions (SRT, VTT, TXT, JSON, DOCX, PDF), and runs AI analysis (summaries, chapters, sentiment, entities). The Sonix REST API - available to subscribers - lets developers upload media, poll transcription status, retrieve and edit transcripts, export subtitles, and translate, all authorized with a Bearer API key against https://api.sonix.ai/v1.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/sonix/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/sonix/refs/heads/main/apis.yml)
+**Areas:** Audio Transcription · Transcription · Speech-to-Text · Subtitles · Captions · Translation · Artificial Intelligence · Media
 
-## Access Model
+## Sonix on APIs.io
 
-The Sonix API is public and documented at [https://sonix.ai/docs/api](https://sonix.ai/docs/api), but it requires a Sonix account to obtain credentials. API access is included on every paid plan - Pay As You Go ($10/hr) and the Core, Advanced, and Pro subscriptions. Subscribers retrieve their API key at `https://my.sonix.ai/api`; trial accounts (which include a small amount of free transcription) can request a key from Sonix support. All requests are authorized with `Authorization: Bearer <API Key>`. The current API version is `v1`.
+Everything profiled for Sonix is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/sonix/](https://apis.io/providers/sonix/)** — or go straight to one of the APIs or properties below.
 
-Transcription is asynchronous: you upload media, then either poll the media/transcript resource for status (preparing → transcribing → aligning → completed) or receive an HTTP webhook at an optional `callback_url` when transcription finishes. Sonix markets a real-time streaming transcription option, but it is gated behind a sales conversation and is not publicly documented, so it is not modeled here.
+### APIs (6)
 
-## Tags
+- [Sonix AI Analysis API](https://apis.io/apis/sonix/sonix-ai-analysis-api/) — Generate summaries, chapters, sentiment, and entity analysis from transcripts.
+- [Sonix Exports API](https://apis.io/apis/sonix/sonix-exports-api/) — Export transcripts as subtitles, captions, documents, and media burn-ins.
+- [Sonix Folders API](https://apis.io/apis/sonix/sonix-folders-api/) — Organize media into folders.
+- [Sonix Media API](https://apis.io/apis/sonix/sonix-media-api/) — Upload and manage audio and video media files for transcription.
+- [Sonix Transcripts API](https://apis.io/apis/sonix/sonix-transcripts-api/) — Retrieve and edit transcripts produced from media.
+- [Sonix Translations API](https://apis.io/apis/sonix/sonix-translations-api/) — Translate a completed transcript into another language.
 
-- Audio Transcription
-- Transcription
-- Speech-to-Text
-- Subtitles
-- Captions
-- Translation
-- AI
-- Media
+### Published properties
 
-## Timestamps
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- **Created:** 2026-07-11
-- **Modified:** 2026-07-11
+#### MCP servers (1)
 
-## APIs
+Model Context Protocol servers that expose the API to agents.
 
-### Sonix Media & Transcription API
+- [sonix](https://apis.io/servers/sonix/sonix/)
 
-Upload audio and video media - by multipart file (up to 100MB) or `file_url` - for automated speech-to-text transcription in 54+ languages, then list, retrieve, update, and delete media and poll transcription status. An optional `callback_url` delivers a webhook when transcription finishes.
+#### Agentic access (1)
 
-- **Human URL:** [https://sonix.ai/docs/api](https://sonix.ai/docs/api)
-- **Base URL:** `https://api.sonix.ai/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Sonix Agentic Access](https://apis.io/agentic-access/sonix/sonix-agentic-access/)
 
-- Audio Transcription
-- Speech-to-Text
-- Media Upload
+#### Collections (7)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://sonix.ai/docs/api)
-- [API Reference](https://sonix.ai/api)
-- [OpenAPI](openapi/sonix-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/sonix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/sonix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Sonix API](https://apis.io/collections/sonix/open-sonix/)
+- [Sonix AI Analysis API](https://apis.io/collections/sonix/open-sonix-ai-analysis-api/)
+- [Sonix AI Analysis Exports API](https://apis.io/collections/sonix/open-sonix-exports-api/)
+- [Sonix AI Analysis Folders API](https://apis.io/collections/sonix/open-sonix-folders-api/)
+- [Sonix AI Analysis Media API](https://apis.io/collections/sonix/open-sonix-media-api/)
+- [Sonix AI Analysis Transcripts API](https://apis.io/collections/sonix/open-sonix-transcripts-api/)
+- [Sonix AI Analysis Translations API](https://apis.io/collections/sonix/open-sonix-translations-api/)
 
-### Sonix Transcripts API
+#### Security (1)
 
-Retrieve a media file's transcript as plain text or as JSON with word-level timings, speaker labels, and confidence scores, and edit transcript content programmatically after transcription completes.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://sonix.ai/docs/api](https://sonix.ai/docs/api)
-- **Base URL:** `https://api.sonix.ai/v1`
+- [Sonix Authentication](https://apis.io/security/sonix/sonix-authentication/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Transcription
-- Transcripts
-- Word Timestamps
+Published plans, tiers and prices.
 
-#### Properties
+- [Sonix Plans Pricing](https://apis.io/plans/sonix/sonix-plans-pricing/)
 
-- [Documentation](https://sonix.ai/docs/api)
-- [OpenAPI](openapi/sonix-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/sonix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/sonix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Sonix Translations API
+Published request limits.
 
-Translate a completed transcript into any of 55+ target languages and poll the translation status per target language, enabling multilingual transcripts and subtitles from a single source media file.
+- [Sonix Rate Limits](https://apis.io/rate-limits/sonix/sonix-rate-limits/)
 
-- **Human URL:** [https://sonix.ai/docs/api](https://sonix.ai/docs/api)
-- **Base URL:** `https://api.sonix.ai/v1`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Translation
-- Transcription
-- Localization
+- [Sonix Finops](https://apis.io/finops/sonix/sonix-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://sonix.ai/docs/api)
-- [OpenAPI](openapi/sonix-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/sonix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/sonix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Sonix Exports & Subtitles API
-
-Export transcripts as SRT and VTT subtitles, JSON, and other formats, split transcripts into subtitle segments by characters-per-line and lines-per-subtitle, burn subtitles into video, and export source media as mp3, wav, or mp4.
-
-- **Human URL:** [https://sonix.ai/docs/api](https://sonix.ai/docs/api)
-- **Base URL:** `https://api.sonix.ai/v1`
-
-#### Tags
-
-- Subtitles
-- Captions
-- Exports
-
-#### Properties
-
-- [Documentation](https://sonix.ai/docs/api)
-- [OpenAPI](openapi/sonix-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/sonix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/sonix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Sonix AI Analysis API
-
-Run AI analysis over a transcript to generate summaries, chapters, sentiment analysis, and entity extraction, and retrieve or batch these summarization jobs across a folder of media.
-
-- **Human URL:** [https://sonix.ai/docs/api](https://sonix.ai/docs/api)
-- **Base URL:** `https://api.sonix.ai/v1`
-
-#### Tags
-
-- AI
-- Summarization
-- Sentiment
-
-#### Properties
-
-- [Documentation](https://sonix.ai/docs/api)
-- [OpenAPI](openapi/sonix-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/sonix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/sonix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [Authentication](authentication/sonix-authentication.yml)
-- [LinkedIn](https://www.linkedin.com/company/sonix-ai)
 - [Website](https://sonix.ai)
 - [Documentation](https://sonix.ai/docs/api)
-- [Plans](plans/sonix-plans-pricing.yml)
-- [Rate Limits](rate-limits/sonix-rate-limits.yml)
-- [Fin Ops](finops/sonix-finops.yml)
+- [Pricing](https://sonix.ai/pricing)
+- [Blog](https://sonix.ai/resources)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 34.0** — thin · rubric 0.25.0 · scored 2026-10-23
 
----
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 53.6 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 42.1 |
 
-> Note: The OpenAPI, Postman, and Open Collection artifacts were modeled by API Evangelist from Sonix's public API documentation ([https://sonix.ai/docs/api](https://sonix.ai/docs/api)). Endpoint paths, the base URL, Bearer authentication, and media/transcript status values are grounded in the public docs; individual request/response field schemas are honestly modeled where the docs do not enumerate every field.
+**Agent readiness 43.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 5.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/sonix/](https://apis.io/providers/sonix/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Sonix: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/sonix/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
